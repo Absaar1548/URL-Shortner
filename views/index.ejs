@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Welcome to our url Shortner</h1>
+    <br />
+    <form action="">
+      <input type="text" placeholder="Enter long URL" id="inputElement" />
+      <button onclick="handleFormSubmit()">Submit</button>
+      <h2 id="shorturl"></h2>
+    </form>
+    <script>
+      function handleFormSubmit() {
+        event.preventDefault();
+        const inputElement = document.getElementById("inputElement");
+        // alert(`Value is ${inputElement.value}`);
+        fetch("http://localhost:7000/api/URL", {
+          method: "POST",
+          body: JSON.stringify({ longUrl: inputElement.value }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then(function (value) {
+          value.json().then(function (data) {
+            document.getElementById(
+              "shorturl"
+            ).innerText = `Your Short URL is http://localhost:7000/${data.shortUrl}`;
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
